@@ -5,7 +5,7 @@ painel para celular. **Não opera dinheiro real e não promete retorno.**
 
 > ⚠️ **Leia antes:** resultados históricos não garantem nada. Com R$ 50 o ganho esperado em reais é pequeno
 > (um ano excelente rende ~R$ 15; renda fixa a CDI rende ~R$ 5) e os testes **não encontraram evidência** de que
-> as estratégias ativas superem comprar-e-segurar após custos. Veja [`docs/VIABILIDADE.md`](docs/VIABILIDADE.md).
+> as estratégias ativas superem a referência passiva após custos e após corrigir o viés de escolha do universo. Veja [`docs/VIABILIDADE.md`](docs/VIABILIDADE.md).
 
 ## O que faz
 

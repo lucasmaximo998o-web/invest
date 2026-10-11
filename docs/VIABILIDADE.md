@@ -49,12 +49,30 @@ Calculado pelo próprio sistema (`aba Estudo → Viabilidade`) com preços reais
 
 ## 3. Resultado dos backtests (histórico simulado, 2019-05 → 2026-10, custos incluídos)
 
-Ver o placar completo na aba **Estudo** (atualiza semanalmente). Pontos-chave, medidos nos dados reais:
+Placar completo na aba **Estudo** (recalculado semanalmente). Números medidos nos dados reais (CDI no período: 9,7 % a.a.):
 
-1. A referência **"comprar o universo inteiro em partes iguais"** teve Sharpe 1,05 e **bateu quase todas as estratégias ativas** — a maior parte do "ganho" das ativas vem de ter incluído, com retrospecto, ativos que explodiram.
-2. **Walk-forward** (parâmetros escolhidos só no passado): `trend_sma` rendeu −3,7 % a.a. fora da amostra contra CDI de 12,1 %; ajustar parâmetros **não** melhorou de forma confiável.
-3. **DSR** (Sharpe corrigido pelas ~45 tentativas): nenhuma estratégia ativa passa de 0,95. Estratégias de reversão (Bollinger/RSI) ficaram perto de zero ou abaixo do CDI.
-4. O modelo de ML (gradient boosting) teve AUC fora da amostra ≈ 0,51 (acaso = 0,50): **sem evidência de poder preditivo**; mantido só como experimental.
-5. Drawdowns de −60 % a −80 % em estratégias com cripto: incompatíveis com o limite de interrupção de 25 % do paper trading (ele *vai* interromper essas carteiras em algum momento — é o comportamento desejado).
+| Estratégia | CAGR | Sharpe | Máx. queda | DSR | CAGR **sem** NVDA, SOL, BNB, BTC |
+|---|---|---|---|---|---|
+| Passiva: universo inteiro, pesos iguais | 41,6 % | **1,05** | −36 % | 0,96 | 35,5 % |
+| Momentum dual | 51,4 % | 0,85 | −69 % | 0,76 | **15,7 %** |
+| Médias móveis 50/200 | 41,8 % | 0,73 | −63 % | 0,66 | 19,9 % |
+| Passiva: comprar e segurar BTC | 41,1 % | 0,72 | −78 % | 0,63 | — |
+| Regressão ridge | 41,0 % | 0,71 | −80 % | 0,62 | **−8,8 %** |
+| MACD | 37,3 % | 0,68 | −75 % | 0,61 | 22,2 % |
+| Baixa volatilidade | 20,9 % | 0,67 | −23 % | 0,91 | 18,1 % |
+| Passiva: S&P 500 (só preço) | 17,5 % | 0,43 | −32 % | 0,62 | — |
+| Gradient boosting (ML) | 10,0 % | 0,24 | −72 % | 0,19 | — |
+| RSI sobrevendido | 9,1 % | 0,17 | −47 % | 0,17 | 7,6 % |
+| Bollinger −2σ | 0,0 % | −0,06 | −51 % | 0,06 | −1,0 % |
 
-> Nada disso é promessa de retorno. O que é verificável é o **processo**: dados auditáveis, custos, ausência de look-ahead (teste automatizado) e resultado "para frente" no paper trading.
+**O que isso significa (leitura crítica):**
+
+1. **Nenhuma estratégia ativa superou, em Sharpe, a referência "comprar o universo inteiro em partes iguais".** O CAGR maior do momentum dual vem de risco maior (queda de −69 %).
+2. **Viés de retrospecto dominante:** tirando só os 4 ativos que mais subiram (que só conhecemos olhando para trás), o momentum dual cai para 15,7 % a.a. e a regressão ridge para **−8,8 %**. Boa parte do "desempenho" é a escolha do universo, não habilidade da estratégia.
+3. **DSR** (Sharpe corrigido pelas 45 tentativas: 13 estratégias + 32 combinações de parâmetros): nenhuma estratégia ativa chega a 0,95 (máx. 0,76). O bootstrap diz que o momentum dual "bateu" o universo inteiro em 92 % das reamostragens, mas isso não resiste à correção por múltiplos testes nem ao item 2.
+4. **Walk-forward (parâmetros escolhidos só no passado, medidos no futuro):** resultado **misto** — melhorou em 2 de 4 famílias (momentum dual 29,3 % vs 20,9 % com o padrão; RSI 12,4 % vs 5,9 %) e piorou em 2 (médias móveis −3,7 % vs 8,7 %; Bollinger −1,8 % vs 6,3 %; CDI na janela: 12,1 %). Não há base para confiar em otimização de parâmetros.
+5. **ML:** AUC fora da amostra ≈ 0,51 (acaso = 0,50) para o gradient boosting e ≈ 0,49 para a regressão ridge: **sem evidência de poder preditivo**; o ML fica como experimental e nunca é a carteira principal.
+6. **Risco:** quedas de −60 % a −80 % em estratégias com cripto são incompatíveis com o limite de 25 % do paper trading: essas carteiras *vão* ser interrompidas em algum momento — comportamento desejado.
+7. **Com R$ 50 reais** (lote/ordem mínima, 3 posições), os resultados mudam muito e ficam dependentes da trajetória (ex.: regressão ridge terminou em R$ 27 enquanto o universo inteiro nem consegue ser comprado). Ver coluna `R$50→` no painel.
+
+> Nada disso é promessa de retorno. O que é verificável é o **processo**: dados auditáveis, custos, ausência de look-ahead (teste automatizado), correção para múltiplos testes e resultado "para frente" no paper trading, que é o único teste sem viés de retrospecto.
