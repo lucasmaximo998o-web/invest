@@ -21,17 +21,17 @@ Sem posições abertas (100% em caixa).
 | Carteira | Tipo | Patrimônio | Rentab. | Drawdown atual | Status |
 |---|---|---|---|---|---|
 | bh_btc | passiva | R$ 50,00 | +0,00% | 0,0% | active |
-| bh_spy | passiva | R$ 50,00 | +0,00% | 0,0% | active |
 | bh_ew | passiva | R$ 50,00 | +0,00% | 0,0% | active |
-| ew_rebal | passiva | R$ 50,00 | +0,00% | 0,0% | active |
+| bh_spy | passiva | R$ 50,00 | +0,00% | 0,0% | active |
 | dual_momentum | momentum | R$ 50,00 | +0,00% | 0,0% | active |
-| trend_sma | tendência | R$ 50,00 | +0,00% | 0,0% | active |
+| ew_rebal | passiva | R$ 50,00 | +0,00% | 0,0% | active |
+| lowvol | estatística | R$ 50,00 | +0,00% | 0,0% | active |
 | macd_trend | tendência | R$ 50,00 | +0,00% | 0,0% | active |
 | meanrev_bb | reversão | R$ 50,00 | +0,00% | 0,0% | active |
-| rsi_mr | reversão | R$ 50,00 | +0,00% | 0,0% | active |
-| lowvol | estatística | R$ 50,00 | +0,00% | 0,0% | active |
-| stat_ridge | estatística | R$ 50,00 | +0,00% | 0,0% | active |
 | ml_gbm | ml | R$ 50,00 | +0,00% | 0,0% | active |
+| rsi_mr | reversão | R$ 50,00 | +0,00% | 0,0% | active |
+| stat_ridge | estatística | R$ 50,00 | +0,00% | 0,0% | active |
+| trend_sma | tendência | R$ 50,00 | +0,00% | 0,0% | active |
 
 Referência CDI no mesmo período: +0,00% (bruto de impostos).
 
@@ -60,4 +60,4 @@ CDI no período: 9,7% a.a. DSR < 0,95 = sem evidência estatística após corrig
 - Sem avisos.
 
 ---
-*Gerado em 2026-10-11T20:49:30+00:00 · INVESTIDOR AI v0.1.0 · modo PAPER.*
+*Gerado em 2026-10-11T20:51:29+00:00 · INVESTIDOR AI v0.1.0 · modo PAPER.*

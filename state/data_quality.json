@@ -171,38 +171,38 @@
     "checked": {
       "ADA": {
         "binance": 0.2535,
-        "coingecko": 0.253544,
-        "desvio_pct": 0.017
+        "coingecko": 0.253193,
+        "desvio_pct": 0.121
       },
       "BNB": {
-        "binance": 753.72,
-        "coingecko": 753.05,
-        "desvio_pct": 0.089
+        "binance": 753.52,
+        "coingecko": 752.79,
+        "desvio_pct": 0.097
       },
       "BTC": {
-        "binance": 83709.86,
-        "coingecko": 83626.0,
-        "desvio_pct": 0.1
+        "binance": 83688.01,
+        "coingecko": 83613.0,
+        "desvio_pct": 0.09
       },
       "ETH": {
-        "binance": 2538.77,
-        "coingecko": 2535.92,
-        "desvio_pct": 0.112
+        "binance": 2538.56,
+        "coingecko": 2535.79,
+        "desvio_pct": 0.109
       },
       "SOL": {
-        "binance": 111.46,
-        "coingecko": 111.33,
+        "binance": 111.41,
+        "coingecko": 111.28,
         "desvio_pct": 0.117
       },
       "XRP": {
-        "binance": 1.4103,
+        "binance": 1.4099,
         "coingecko": 1.41,
-        "desvio_pct": 0.021
+        "desvio_pct": 0.007
       }
     },
     "ok": true
   },
-  "fetched_at": "2026-10-11T20:47:39+00:00",
+  "fetched_at": "2026-10-11T20:51:10+00:00",
   "notes": [],
   "skipped": [
     {
