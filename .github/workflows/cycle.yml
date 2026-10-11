@@ -4,9 +4,6 @@ name: Ciclo diário (paper trading)
 # quando o dono do repositório abre uma Issue com título "/investidor <acao>"
 # (os botões do painel abrem essa Issue já preenchida).
 on:
-  push:   # TEMPORÁRIO (verificação antes do merge): remover depois
-    branches: ["claude/investidor-ai-financial-automation-nsc32l"]
-    paths: [".github/workflows/cycle.yml"]
   schedule:
     - cron: "31 1 * * *"          # 01:31 UTC = 22:31 em Brasília; os mercados (B3, EUA, cripto) já fecharam
   workflow_dispatch:
