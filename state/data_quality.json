@@ -1,0 +1,234 @@
+{
+  "as_of": "2026-10-10",
+  "assets": {
+    "AAPL": {
+      "adv_native_60d": 12673839884.8,
+      "asset": "AAPL",
+      "first": "2018-01-02",
+      "issues": [],
+      "lag_days": 1,
+      "last": "2026-10-09",
+      "ok": true,
+      "rows": 2205
+    },
+    "ADA": {
+      "adv_native_60d": 34824398.16499,
+      "asset": "ADA",
+      "first": "2018-04-17",
+      "issues": [
+        {
+          "message": "1 variações diárias > 50% (conferir splits/erros)",
+          "severity": "aviso"
+        }
+      ],
+      "lag_days": 0,
+      "last": "2026-10-10",
+      "ok": true,
+      "rows": 3099
+    },
+    "BNB": {
+      "adv_native_60d": 95946311.481825,
+      "asset": "BNB",
+      "first": "2018-01-01",
+      "issues": [
+        {
+          "message": "3 variações diárias > 50% (conferir splits/erros)",
+          "severity": "aviso"
+        }
+      ],
+      "lag_days": 0,
+      "last": "2026-10-10",
+      "ok": true,
+      "rows": 3205
+    },
+    "BTC": {
+      "adv_native_60d": 1163947537.4117956,
+      "asset": "BTC",
+      "first": "2018-01-01",
+      "issues": [],
+      "lag_days": 0,
+      "last": "2026-10-10",
+      "ok": true,
+      "rows": 3205
+    },
+    "ETH": {
+      "adv_native_60d": 698002499.557957,
+      "asset": "ETH",
+      "first": "2018-01-01",
+      "issues": [],
+      "lag_days": 0,
+      "last": "2026-10-10",
+      "ok": true,
+      "rows": 3205
+    },
+    "GLD": {
+      "adv_native_60d": 3385928297.125,
+      "asset": "GLD",
+      "first": "2018-01-02",
+      "issues": [],
+      "lag_days": 1,
+      "last": "2026-10-09",
+      "ok": true,
+      "rows": 2205
+    },
+    "ITUB4": {
+      "adv_native_60d": 953914803.0,
+      "asset": "ITUB4",
+      "first": "2016-10-13",
+      "issues": [],
+      "lag_days": 1,
+      "last": "2026-10-09",
+      "ok": true,
+      "rows": 2482
+    },
+    "MSFT": {
+      "adv_native_60d": 10931625924.1,
+      "asset": "MSFT",
+      "first": "2018-01-02",
+      "issues": [],
+      "lag_days": 1,
+      "last": "2026-10-09",
+      "ok": true,
+      "rows": 2205
+    },
+    "NVDA": {
+      "adv_native_60d": 24664584459.0,
+      "asset": "NVDA",
+      "first": "2018-01-02",
+      "issues": [],
+      "lag_days": 1,
+      "last": "2026-10-09",
+      "ok": true,
+      "rows": 2205
+    },
+    "PETR4": {
+      "adv_native_60d": 1960828305.0,
+      "asset": "PETR4",
+      "first": "2016-10-13",
+      "issues": [],
+      "lag_days": 1,
+      "last": "2026-10-09",
+      "ok": true,
+      "rows": 2482
+    },
+    "QQQ": {
+      "adv_native_60d": 23687754273.7,
+      "asset": "QQQ",
+      "first": "2018-01-02",
+      "issues": [],
+      "lag_days": 1,
+      "last": "2026-10-09",
+      "ok": true,
+      "rows": 2205
+    },
+    "SOL": {
+      "adv_native_60d": 231616369.79992,
+      "asset": "SOL",
+      "first": "2020-08-11",
+      "issues": [],
+      "lag_days": 0,
+      "last": "2026-10-10",
+      "ok": true,
+      "rows": 2252
+    },
+    "SPY": {
+      "adv_native_60d": 32538627676.050003,
+      "asset": "SPY",
+      "first": "2018-01-02",
+      "issues": [],
+      "lag_days": 1,
+      "last": "2026-10-09",
+      "ok": true,
+      "rows": 2205
+    },
+    "VALE3": {
+      "adv_native_60d": 1402777577.5,
+      "asset": "VALE3",
+      "first": "2016-10-13",
+      "issues": [],
+      "lag_days": 1,
+      "last": "2026-10-09",
+      "ok": true,
+      "rows": 2482
+    },
+    "XRP": {
+      "adv_native_60d": 193769727.89017,
+      "asset": "XRP",
+      "first": "2018-05-04",
+      "issues": [
+        {
+          "message": "2 variações diárias > 50% (conferir splits/erros)",
+          "severity": "aviso"
+        }
+      ],
+      "lag_days": 0,
+      "last": "2026-10-10",
+      "ok": true,
+      "rows": 3082
+    }
+  },
+  "crosscheck": {
+    "checked": {
+      "ADA": {
+        "binance": 0.2535,
+        "coingecko": 0.253544,
+        "desvio_pct": 0.017
+      },
+      "BNB": {
+        "binance": 753.72,
+        "coingecko": 753.05,
+        "desvio_pct": 0.089
+      },
+      "BTC": {
+        "binance": 83709.86,
+        "coingecko": 83626.0,
+        "desvio_pct": 0.1
+      },
+      "ETH": {
+        "binance": 2538.77,
+        "coingecko": 2535.92,
+        "desvio_pct": 0.112
+      },
+      "SOL": {
+        "binance": 111.46,
+        "coingecko": 111.33,
+        "desvio_pct": 0.117
+      },
+      "XRP": {
+        "binance": 1.4103,
+        "coingecko": 1.41,
+        "desvio_pct": 0.021
+      }
+    },
+    "ok": true
+  },
+  "fetched_at": "2026-10-11T20:47:39+00:00",
+  "notes": [],
+  "skipped": [
+    {
+      "asset": "BOVA11",
+      "reason": "requer BRAPI_TOKEN (gratuito em brapi.dev)"
+    },
+    {
+      "asset": "IVVB11",
+      "reason": "requer BRAPI_TOKEN (gratuito em brapi.dev)"
+    }
+  ],
+  "sources": {
+    "AAPL": "api",
+    "ADA": "api",
+    "BNB": "api",
+    "BTC": "api",
+    "ETH": "api",
+    "GLD": "api",
+    "ITUB4": "api",
+    "MSFT": "api",
+    "NVDA": "api",
+    "PETR4": "api",
+    "QQQ": "api",
+    "SOL": "api",
+    "SPY": "api",
+    "VALE3": "api",
+    "XRP": "api"
+  }
+}

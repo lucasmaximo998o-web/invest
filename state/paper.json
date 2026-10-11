@@ -1,0 +1,251 @@
+{
+  "active": true,
+  "closed_runs": [],
+  "initial": 50.0,
+  "portfolios": {
+    "bh_btc": {
+      "alerted_dd": [],
+      "halt_reason": null,
+      "last_date": "2026-10-10",
+      "peak": 50.0,
+      "positions": [],
+      "risk_managed": false,
+      "sim": {
+        "bought": [],
+        "cash": 50.0,
+        "dividends_received": 0.0,
+        "fees_paid": 0.0,
+        "initial": 50.0,
+        "mode": "run",
+        "notional_traded": 0.0,
+        "qty": {},
+        "slippage_paid": 0.0
+      },
+      "status": "active"
+    },
+    "bh_ew": {
+      "alerted_dd": [],
+      "halt_reason": null,
+      "last_date": "2026-10-10",
+      "peak": 50.0,
+      "positions": [],
+      "risk_managed": false,
+      "sim": {
+        "bought": [],
+        "cash": 50.0,
+        "dividends_received": 0.0,
+        "fees_paid": 0.0,
+        "initial": 50.0,
+        "mode": "run",
+        "notional_traded": 0.0,
+        "qty": {},
+        "slippage_paid": 0.0
+      },
+      "status": "active"
+    },
+    "bh_spy": {
+      "alerted_dd": [],
+      "halt_reason": null,
+      "last_date": "2026-10-10",
+      "peak": 50.0,
+      "positions": [],
+      "risk_managed": false,
+      "sim": {
+        "bought": [],
+        "cash": 50.0,
+        "dividends_received": 0.0,
+        "fees_paid": 0.0,
+        "initial": 50.0,
+        "mode": "run",
+        "notional_traded": 0.0,
+        "qty": {},
+        "slippage_paid": 0.0
+      },
+      "status": "active"
+    },
+    "dual_momentum": {
+      "alerted_dd": [],
+      "halt_reason": null,
+      "last_date": "2026-10-10",
+      "peak": 50.0,
+      "positions": [],
+      "risk_managed": true,
+      "sim": {
+        "bought": [],
+        "cash": 50.0,
+        "dividends_received": 0.0,
+        "fees_paid": 0.0,
+        "initial": 50.0,
+        "mode": "run",
+        "notional_traded": 0.0,
+        "qty": {},
+        "slippage_paid": 0.0
+      },
+      "status": "active"
+    },
+    "ew_rebal": {
+      "alerted_dd": [],
+      "halt_reason": null,
+      "last_date": "2026-10-10",
+      "peak": 50.0,
+      "positions": [],
+      "risk_managed": false,
+      "sim": {
+        "bought": [],
+        "cash": 50.0,
+        "dividends_received": 0.0,
+        "fees_paid": 0.0,
+        "initial": 50.0,
+        "mode": "run",
+        "notional_traded": 0.0,
+        "qty": {},
+        "slippage_paid": 0.0
+      },
+      "status": "active"
+    },
+    "lowvol": {
+      "alerted_dd": [],
+      "halt_reason": null,
+      "last_date": "2026-10-10",
+      "peak": 50.0,
+      "positions": [],
+      "risk_managed": true,
+      "sim": {
+        "bought": [],
+        "cash": 50.0,
+        "dividends_received": 0.0,
+        "fees_paid": 0.0,
+        "initial": 50.0,
+        "mode": "run",
+        "notional_traded": 0.0,
+        "qty": {},
+        "slippage_paid": 0.0
+      },
+      "status": "active"
+    },
+    "macd_trend": {
+      "alerted_dd": [],
+      "halt_reason": null,
+      "last_date": "2026-10-10",
+      "peak": 50.0,
+      "positions": [],
+      "risk_managed": true,
+      "sim": {
+        "bought": [],
+        "cash": 50.0,
+        "dividends_received": 0.0,
+        "fees_paid": 0.0,
+        "initial": 50.0,
+        "mode": "run",
+        "notional_traded": 0.0,
+        "qty": {},
+        "slippage_paid": 0.0
+      },
+      "status": "active"
+    },
+    "meanrev_bb": {
+      "alerted_dd": [],
+      "halt_reason": null,
+      "last_date": "2026-10-10",
+      "peak": 50.0,
+      "positions": [],
+      "risk_managed": true,
+      "sim": {
+        "bought": [],
+        "cash": 50.0,
+        "dividends_received": 0.0,
+        "fees_paid": 0.0,
+        "initial": 50.0,
+        "mode": "run",
+        "notional_traded": 0.0,
+        "qty": {},
+        "slippage_paid": 0.0
+      },
+      "status": "active"
+    },
+    "ml_gbm": {
+      "alerted_dd": [],
+      "halt_reason": null,
+      "last_date": "2026-10-10",
+      "peak": 50.0,
+      "positions": [],
+      "risk_managed": true,
+      "sim": {
+        "bought": [],
+        "cash": 50.0,
+        "dividends_received": 0.0,
+        "fees_paid": 0.0,
+        "initial": 50.0,
+        "mode": "run",
+        "notional_traded": 0.0,
+        "qty": {},
+        "slippage_paid": 0.0
+      },
+      "status": "active"
+    },
+    "rsi_mr": {
+      "alerted_dd": [],
+      "halt_reason": null,
+      "last_date": "2026-10-10",
+      "peak": 50.0,
+      "positions": [],
+      "risk_managed": true,
+      "sim": {
+        "bought": [],
+        "cash": 50.0,
+        "dividends_received": 0.0,
+        "fees_paid": 0.0,
+        "initial": 50.0,
+        "mode": "run",
+        "notional_traded": 0.0,
+        "qty": {},
+        "slippage_paid": 0.0
+      },
+      "status": "active"
+    },
+    "stat_ridge": {
+      "alerted_dd": [],
+      "halt_reason": null,
+      "last_date": "2026-10-10",
+      "peak": 50.0,
+      "positions": [],
+      "risk_managed": true,
+      "sim": {
+        "bought": [],
+        "cash": 50.0,
+        "dividends_received": 0.0,
+        "fees_paid": 0.0,
+        "initial": 50.0,
+        "mode": "run",
+        "notional_traded": 0.0,
+        "qty": {},
+        "slippage_paid": 0.0
+      },
+      "status": "active"
+    },
+    "trend_sma": {
+      "alerted_dd": [],
+      "halt_reason": null,
+      "last_date": "2026-10-10",
+      "peak": 50.0,
+      "positions": [],
+      "risk_managed": true,
+      "sim": {
+        "bought": [],
+        "cash": 50.0,
+        "dividends_received": 0.0,
+        "fees_paid": 0.0,
+        "initial": 50.0,
+        "mode": "run",
+        "notional_traded": 0.0,
+        "qty": {},
+        "slippage_paid": 0.0
+      },
+      "status": "active"
+    }
+  },
+  "run_id": "R20261010",
+  "start_date": "2026-10-10",
+  "started_at": "2026-10-11T20:48:30+00:00",
+  "version": 1
+}
