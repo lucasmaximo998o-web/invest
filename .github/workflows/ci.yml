@@ -1,0 +1,21 @@
+name: Testes
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Instalar
+        run: pip install -e ".[dev]"
+      - name: Testes (sem rede; inclui teste de look-ahead e de segurança)
+        run: python -m pytest

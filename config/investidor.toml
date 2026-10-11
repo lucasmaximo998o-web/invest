@@ -1,0 +1,252 @@
+# =============================================================================
+# INVESTIDOR AI - configuração
+# MODO ÚNICO SUPORTADO: "paper" (dinheiro fictício). Não existe código de
+# envio de ordens reais neste projeto; ver docs/INTEGRACAO_REAL.md.
+#
+# IMPORTANTE: os parâmetros das estratégias abaixo foram fixados a priori
+# (valores convencionais da literatura), ANTES de olhar os resultados. Não os
+# ajuste olhando o backtest completo - isso seria overfitting. Para otimizar
+# parâmetros, use apenas o walk-forward (resultados fora da amostra).
+# =============================================================================
+
+[general]
+mode = "paper"
+history_start = "2018-01-01"
+primary_strategy = "dual_momentum"      # carteira exibida em destaque no painel
+brapi_range = "10y"
+stale_after_days = 5                    # barra mais velha que isso => dado "velho"
+backtest_refresh_days = 7               # recalcula o backtest completo a cada N dias
+
+[capital]
+paper_initial_brl = 50.0                # cada carteira simulada começa com R$ 50 fictícios
+reference_initial_brl = 10000.0         # capital de referência p/ avaliar a ESTRATÉGIA sem
+                                        # distorção de lote mínimo (backtest "ideal")
+
+[execution]
+min_order_brl = 10.0                    # ordens menores que isso não são enviadas
+rebalance_threshold_pct = 5.0           # ignora ajustes < 5% do patrimônio (reduz giro/custos)
+max_positions = 3                       # com R$ 50, mais que 3 posições fica abaixo do mínimo
+min_cash_pct = 2.0                      # caixa mínimo (nunca 100% investido, nunca alavancado)
+
+[risk]
+max_drawdown_halt_pct = 25.0            # drawdown >= 25%: liquida e INTERROMPE a carteira
+drawdown_alert_levels_pct = [10.0, 15.0, 20.0]
+daily_loss_alert_pct = 5.0              # perda diária da carteira >= 5% => alerta
+asset_move_alert_pct = 15.0             # ativo que sobe/cai >= 15% em 1 dia => alerta
+benchmarks_stale_hours = 48             # painel marca "atrasado" se o último ciclo > 48h
+
+# ---------------------------- custos (premissas) ------------------------------
+# bps = 1/100 de 1%. São PREMISSAS CONSERVADORAS, não cotações de corretora:
+# confirme taxas, spread, IOF/câmbio e impostos na corretora que for usar.
+# Impostos NÃO são modelados (resultados são antes de impostos).
+[costs.crypto]          # corretora/exchange spot
+fee_bps = 25.0          # taxa da corretora por ordem
+spread_bps = 10.0       # spread total (paga metade em cada lado)
+slippage_bps = 5.0
+entry_extra_bps = 0.0
+exit_extra_bps = 0.0
+
+[costs.us]              # EUA via corretora brasileira (câmbio + IOF + spread cambial)
+fee_bps = 0.0
+spread_bps = 6.0
+slippage_bps = 4.0
+entry_extra_bps = 110.0  # premissa: IOF de câmbio + spread cambial na entrada (verificar)
+exit_extra_bps = 40.0    # premissa: spread cambial na saída (verificar)
+
+[costs.b3]              # B3, mercado fracionário
+fee_bps = 3.0           # emolumentos/liquidação; corretagem zero é comum
+spread_bps = 15.0
+slippage_bps = 10.0
+entry_extra_bps = 0.0
+exit_extra_bps = 0.0
+
+# ------------------------------ universo --------------------------------------
+# provider: binance (cripto, data-api.binance.vision) | nasdaq (EUA) | brapi (B3)
+# qty_step: menor fração negociável (cripto/EUA fracionados; B3 fracionário = 1 ação)
+# requires_token: o brapi gratuito sem token só libera PETR4, VALE3, ITUB4, MGLU3.
+# AVISO DE VIÉS: o universo foi escolhido hoje (ativos grandes e líquidos). Isso
+# introduz viés de sobrevivência/retrospecto no backtest; o paper trading
+# "para frente" é a forma de testar sem esse viés.
+
+[[assets]]
+id = "BTC"
+name = "Bitcoin"
+klass = "crypto"
+provider = "binance"
+symbol = "BTCUSDT"
+coingecko = "bitcoin"
+currency = "USD"
+qty_step = 0.000001
+
+[[assets]]
+id = "ETH"
+name = "Ethereum"
+klass = "crypto"
+provider = "binance"
+symbol = "ETHUSDT"
+coingecko = "ethereum"
+currency = "USD"
+qty_step = 0.000001
+
+[[assets]]
+id = "SOL"
+name = "Solana"
+klass = "crypto"
+provider = "binance"
+symbol = "SOLUSDT"
+coingecko = "solana"
+currency = "USD"
+qty_step = 0.000001
+
+[[assets]]
+id = "BNB"
+name = "BNB"
+klass = "crypto"
+provider = "binance"
+symbol = "BNBUSDT"
+coingecko = "binancecoin"
+currency = "USD"
+qty_step = 0.000001
+
+[[assets]]
+id = "XRP"
+name = "XRP"
+klass = "crypto"
+provider = "binance"
+symbol = "XRPUSDT"
+coingecko = "ripple"
+currency = "USD"
+qty_step = 0.000001
+
+[[assets]]
+id = "ADA"
+name = "Cardano"
+klass = "crypto"
+provider = "binance"
+symbol = "ADAUSDT"
+coingecko = "cardano"
+currency = "USD"
+qty_step = 0.000001
+
+[[assets]]
+id = "SPY"
+name = "SPDR S&P 500 ETF"
+klass = "us"
+provider = "nasdaq"
+symbol = "SPY"
+assetclass = "etf"
+currency = "USD"
+qty_step = 0.0001
+total_return = false     # série sem dividendos (retorno de preço)
+
+[[assets]]
+id = "QQQ"
+name = "Invesco QQQ (Nasdaq-100)"
+klass = "us"
+provider = "nasdaq"
+symbol = "QQQ"
+assetclass = "etf"
+currency = "USD"
+qty_step = 0.0001
+total_return = false
+
+[[assets]]
+id = "GLD"
+name = "SPDR Gold Shares"
+klass = "us"
+provider = "nasdaq"
+symbol = "GLD"
+assetclass = "etf"
+currency = "USD"
+qty_step = 0.0001
+total_return = true      # ouro não paga dividendos
+
+[[assets]]
+id = "AAPL"
+name = "Apple"
+klass = "us"
+provider = "nasdaq"
+symbol = "AAPL"
+assetclass = "stocks"
+currency = "USD"
+qty_step = 0.0001
+total_return = false
+
+[[assets]]
+id = "MSFT"
+name = "Microsoft"
+klass = "us"
+provider = "nasdaq"
+symbol = "MSFT"
+assetclass = "stocks"
+currency = "USD"
+qty_step = 0.0001
+total_return = false
+
+[[assets]]
+id = "NVDA"
+name = "NVIDIA"
+klass = "us"
+provider = "nasdaq"
+symbol = "NVDA"
+assetclass = "stocks"
+currency = "USD"
+qty_step = 0.0001
+total_return = false
+
+[[assets]]
+id = "PETR4"
+name = "Petrobras PN"
+klass = "b3"
+provider = "brapi"
+symbol = "PETR4"
+currency = "BRL"
+qty_step = 1.0
+total_return = true
+
+[[assets]]
+id = "VALE3"
+name = "Vale ON"
+klass = "b3"
+provider = "brapi"
+symbol = "VALE3"
+currency = "BRL"
+qty_step = 1.0
+total_return = true
+
+[[assets]]
+id = "ITUB4"
+name = "Itaú Unibanco PN"
+klass = "b3"
+provider = "brapi"
+symbol = "ITUB4"
+currency = "BRL"
+qty_step = 1.0
+total_return = true
+
+[[assets]]
+id = "BOVA11"
+name = "ETF Ibovespa"
+klass = "b3"
+provider = "brapi"
+symbol = "BOVA11"
+currency = "BRL"
+qty_step = 1.0
+total_return = true
+requires_token = true    # defina BRAPI_TOKEN (grátis em brapi.dev) para ativar
+
+[[assets]]
+id = "IVVB11"
+name = "ETF S&P 500 em reais"
+klass = "b3"
+provider = "brapi"
+symbol = "IVVB11"
+currency = "BRL"
+qty_step = 1.0
+total_return = true
+requires_token = true
+
+# ------------------------- referências passivas -------------------------------
+# bh = comprar e segurar (sem rebalancear); ew_rebal = pesos iguais, rebal. mensal.
+[passive]
+ew_assets = ["BTC", "SPY", "GLD"]

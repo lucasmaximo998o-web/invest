@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+.venv/
+# cache local de preços (re-baixável) e saídas locais de teste
+data_cache/
+/state/
+/_site/
+.env

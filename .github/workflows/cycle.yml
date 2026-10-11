@@ -1,0 +1,176 @@
+name: Ciclo diário (paper trading)
+
+# Roda sozinho todo dia (celular desligado), a pedido (Actions -> Run workflow) ou
+# quando o dono do repositório abre uma Issue com título "/investidor <acao>"
+# (os botões do painel abrem essa Issue já preenchida).
+on:
+  schedule:
+    - cron: "31 1 * * *"          # 01:31 UTC = 22:31 em Brasília; todos os mercados já fecharam
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "Comando para a simulação"
+        type: choice
+        options: [nenhuma, start, pause, resume, stop]
+        default: nenhuma
+      force_backtest:
+        description: "Recalcular o backtest completo agora"
+        type: boolean
+        default: false
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write      # grava o estado no branch `state`
+  issues: write        # alertas críticos viram Issues (push no app do GitHub)
+  pages: write
+  id-token: write
+
+# um ciclo por vez: nunca dois escrevendo o estado ao mesmo tempo
+concurrency:
+  group: investidor-estado
+  cancel-in-progress: false
+
+env:
+  PYTHONUNBUFFERED: "1"
+
+jobs:
+  ciclo:
+    # comandos por Issue só valem se vierem do dono do repositório
+    if: >-
+      github.event_name != 'issues' ||
+      (github.actor == github.repository_owner && startsWith(github.event.issue.title, '/investidor '))
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Branch de estado existe?
+        id: st
+        run: |
+          if git ls-remote --exit-code --heads origin state >/dev/null 2>&1; then echo "existe=true" >> "$GITHUB_OUTPUT"; else echo "existe=false" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Baixar estado
+        if: steps.st.outputs.existe == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: state
+          path: state-branch
+
+      - name: Criar estado (primeira execução)
+        if: steps.st.outputs.existe == 'false'
+        run: |
+          git init -q -b state state-branch
+          git -C state-branch remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Instalar
+        run: pip install -e ".[ml]"
+
+      - name: Cache local de preços (só fallback se uma API falhar)
+        uses: actions/cache@v4
+        with:
+          path: data_cache
+          key: precos-${{ github.run_id }}
+          restore-keys: precos-
+
+      - name: Aplicar comando vindo da Issue
+        if: github.event_name == 'issues'
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ACTOR: ${{ github.actor }}
+        run: investidor --state-dir state-branch/state control-from-title --title "$ISSUE_TITLE" --actor "issue de $ACTOR"
+
+      - name: Aplicar comando manual
+        if: github.event_name == 'workflow_dispatch' && inputs.action != 'nenhuma'
+        env:
+          ACAO: ${{ inputs.action }}
+          ACTOR: ${{ github.actor }}
+        run: investidor --state-dir state-branch/state control "$ACAO" --actor "manual de $ACTOR"
+
+      - name: Rodar o ciclo
+        id: ciclo
+        continue-on-error: true      # mesmo se falhar, o registro do erro é salvo e alertado abaixo
+        env:
+          BRAPI_TOKEN: ${{ secrets.BRAPI_TOKEN }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          FORCE_BT: ${{ inputs.force_backtest }}
+        run: |
+          EXTRA=""
+          if [ "$FORCE_BT" = "true" ]; then EXTRA="--force-backtest"; fi
+          investidor -v --state-dir state-branch/state --cache-dir data_cache --out-dir _site cycle $EXTRA
+
+      - name: Salvar estado (commit no branch state)
+        run: |
+          cd state-branch
+          git config user.name "investidor-ai[bot]"
+          git config user.email "investidor-ai@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "sem mudanças de estado"
+          else
+            git commit -q -m "estado: ciclo ${GITHUB_RUN_ID} (${{ github.event_name }})"
+            for i in 1 2 3 4; do
+              git push -q origin state && break
+              echo "push falhou ($i); tentando de novo"; sleep $((2 ** i))
+            done
+          fi
+
+      - name: Alertas críticos viram Issues
+        if: always() && hashFiles('_site/new_alerts.json') != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create alerta --color D03B3B --description "Alerta do Investidor AI" --force >/dev/null 2>&1 || true
+          jq -c '.[] | select(.severity=="critical")' _site/new_alerts.json | while read -r a; do
+            kind=$(echo "$a" | jq -r '.kind'); msg=$(echo "$a" | jq -r '.message')
+            gh issue create --label alerta --title "🔴 Alerta crítico: ${kind}" \
+              --body "${msg}"$'\n\n'"Simulação com dinheiro fictício. Detalhes: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" || true
+          done
+
+      - name: Responder e fechar a Issue de comando
+        if: always() && github.event_name == 'issues'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NUM: ${{ github.event.issue.number }}
+        run: |
+          estado=$(jq -r '.state' state-branch/state/control.json 2>/dev/null || echo "?")
+          gh issue comment "$NUM" --body "Comando processado. Estado da simulação: **${estado}**. O painel é republicado em ~1 minuto." || true
+          gh issue close "$NUM" --reason completed || true
+
+      - name: Resumo
+        if: always()
+        run: |
+          {
+            echo "### Investidor AI — modo PAPER (dinheiro fictício)"
+            if [ -f state-branch/state/runs.jsonl ]; then echo '```'; tail -n 1 state-branch/state/runs.jsonl | cut -c1-400; echo '```'; fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Preparar painel para publicação
+        if: always() && hashFiles('_site/index.html') != ''
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Falhar se o ciclo falhou
+        if: steps.ciclo.outcome == 'failure'
+        run: |
+          echo "::error::O ciclo falhou; veja o log do passo 'Rodar o ciclo'. O erro foi registrado e alertado."
+          exit 1
+
+  publicar:
+    needs: ciclo
+    if: always() && needs.ciclo.result != 'skipped'
+    runs-on: ubuntu-latest
+    continue-on-error: true       # antes de ativar o GitHub Pages isto falha sem afetar o ciclo
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
